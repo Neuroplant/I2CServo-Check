@@ -17,7 +17,7 @@
 #define devId1	0x41
 #define PIN_BASE0 64
 #define PIN_BASE1 81
-#define MAX_PWM 4096
+#define PWM_MAX 4096
 #define HERTZ 50
 
 struct s_Servo {
@@ -32,11 +32,13 @@ long map(long value,long fromLow,long fromHigh,long toLow,long toHigh){
     return (toHigh-toLow)*(value-fromLow) / (fromHigh-fromLow) + toLow;
 }
 
+void servoWriteMS(int pin, int ms);
+
 void servoInit(int pin){        //initialization function for servo PMW pin
-	pinMode(pin+PINBASE0,OUTPUT);
+	pinMode(pin+PIN_BASE0,OUTPUT);
 	Servo[pin].min=10;
 	Servo[pin].max=10;
-	servoWriteMS(pin+PINBASE0,10);	
+	servoWriteMS(pin+PIN_BASE0,10);	
 }
 
 void servoWriteMS(int pin, int ms){     //specific the unit for pulse(5-25ms) with specific duration output by servo pin: 0.1ms
@@ -79,72 +81,77 @@ int main (int argc, char *argv[]) {
 	int fd1 = pca9685Setup(PIN_BASE1, devId1, HERTZ);
 	if (fd1 < 0)	{
 		printf("Error in setup\n");
-		return fd10;
+		return fd1;
 	}
 	pca9685PWMReset(fd1);
 	
 	for (i=0;i<16;i++) {
-		printf("Testing Servo Nr. %i an Modul %h\n",i,devID0);
+		printf("Testing Servo Nr. %i an Modul %i\n",i,devId0);
 		servoInit(i);
 		printf("Setze MIN Value (+/-/x)");
+		key=0;
 		while (key != 120) {		
 			key=getchar();
-			if (key==34) {
+			if (key==43) {
 				Servo[i].min++;
 			}
 			if (key==45) {
 				Servo[i].min--;
 			}
-			printf("Servo %i min:/i\n",i,Servo[i].min);
+			servoWriteMS(i+PIN_BASE0,Servo[i].min);
+			printf("Servo %i min:%i\n",i,Servo[i].min);
 		}
 		printf("Setze MAX Value (+/-/x)");
+		key=0;
 		while (key != 120) {
 			key=getchar();
-			if (key==34) {
+			if (key==43) {
 				Servo[i].max++;
 			}
 			if (key==45) {
-				Servo[i].max--
+				Servo[i].max--;
 			}
-			ServoWriteMS(i+PIN_BASE0,Servo[i].min);
-			printf("Servo %i max:/i\n",i,Servo[i].min);
+			servoWriteMS(i+PIN_BASE0,Servo[i].min);
+			printf("Servo %i max:%i\n",i,Servo[i].min);
 		}
 		servoWriteMS(i+PIN_BASE0,(Servo[i].min+Servo[i].max)/2);
 
 	}
 	for (i=17;i<33;i++) {
-		printf("Testing Servo Nr. %i an Modul %h\n",i-17,devID1);
+		printf("Testing Servo Nr. %i an Modul %i\n",i-17,devId1);
 		servoInit(i);
 		printf("Setze MIN Value (+/-/x)");
+		key=0;
 		while (key != 120) {		
 			key=getchar();
-			if (key==34) {
+			if (key==43) {
 				Servo[i].min++;
 				servoWriteMS(i+PIN_BASE1,Servo[i].min);
-				printf("Servo %i min:/i\n",i,Servo[i].min);
+				printf("Servo %i min:%i\n",i,Servo[i].min);
 			}
 			if (key==45) {
-				Servo[i].min--
+				Servo[i].min--;
 				servoWriteMS(i+PIN_BASE1,Servo[i].min);
-				printf("Servo %i min:/i\n",i,Servo[i].min);
+				printf("Servo %i min:%i\n",i,Servo[i].min);
 			}
 		}
 		printf("Setze MAX Value (+/-/x)");
+		key=0;
 		while (key != 120) {
 			key=getchar();
-			if (key==34) {
+			if (key==43) {
 				Servo[i].max++;
 			}
 			if (key==45) {
-				Servo[i].max--
+				Servo[i].max--;
 			}
-			ServoWriteMS(i+PIN_BASE0,Servo[i].min);
-			printf("Servo %i min:/i\n",i,Servo[i].min);
+			servoWriteMS(i+PIN_BASE0,Servo[i].min);
+			printf("Servo %i min:%i\n",i,Servo[i].min);
 		}
 		servoWriteMS(i+PIN_BASE0,(Servo[i].min+Servo[i].max)/2);
 	}
 	printf("\n\nDatenerfassung beendet\n");
-	for (i=0;1<=33;i++) {
+	for (i=0;i<=33;i++) {
 		printf("Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
 	}
     return 0;
