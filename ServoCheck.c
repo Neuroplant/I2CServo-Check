@@ -164,14 +164,14 @@ int main (int argc, char *argv[]) {
 	}
 /////////////////////////////////Ausgabe
 	printf("\n\nDatenerfassung beendet\n");
-	printf("\nModul: %i\",PIN_BASE0);
+	printf("\nModul: %i\n",PIN_BASE0);
 	for (i=0;i<=16;i++) printf("Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
 	printf("\nModul: %i\",PIN_BASE1);
 	for (i=0;i<=16;i++) printf("Servo Nr. %i min :%i, max:%i \n",i,Servo[i+17].min,Servo[i+17].max);
 	fp = fopen("I2CServos.txt", "w");
-	     	fprintf(fp,"\nModul: %i\",PIN_BASE0);
+	     	fprintf(fp,"\nModul: %i\n",PIN_BASE0);
 		for (i=0;i<16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
-		fprintf(fp,"\nModul: %i\",PIN_BASE1);
+		fprintf(fp,"\nModul: %i\n",PIN_BASE1);
 		for (i=0;i<16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i+17].min,Servo[i+17].max);
 	fclose(fp);       
     return 0;
