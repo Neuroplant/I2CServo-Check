@@ -1,6 +1,9 @@
-/**********************************************************************
-
-**********************************************************************/
+//**********************************************************************
+//CheckServo
+//This little Program is made for helping to gather all Servo-Limits
+//needed for SpiderRoy.
+//output to screen and I2CServos.txt
+//**********************************************************************
 #include <wiringPi.h>
 #include <softPwm.h>
 #include <stdio.h>
@@ -159,6 +162,7 @@ int main (int argc, char *argv[]) {
 		}
 		servoWriteMS(i+PIN_BASE0,(Servo[i+17].min+Servo[i+17].max)/2);
 	}
+/////////////////////////////////Ausgabe
 	printf("\n\nDatenerfassung beendet\n");
 	printf("\nModul: %i\",PIN_BASE0);
 	for (i=0;i<=16;i++) printf("Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
@@ -166,9 +170,9 @@ int main (int argc, char *argv[]) {
 	for (i=0;i<=16;i++) printf("Servo Nr. %i min :%i, max:%i \n",i,Servo[i+17].min,Servo[i+17].max);
 	fp = fopen("I2CServos.txt", "w");
 	     	fprintf(fp,"\nModul: %i\",PIN_BASE0);
-		for (i=0;i<=16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
+		for (i=0;i<16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
 		fprintf(fp,"\nModul: %i\",PIN_BASE1);
-		for (i=0;i<=16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i+17].min,Servo[i+17].max);
+		for (i=0;i<16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i+17].min,Servo[i+17].max);
 	fclose(fp);       
     return 0;
 }
