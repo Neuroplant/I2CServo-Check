@@ -2,6 +2,9 @@
 //CheckServo
 //This little Program is made for helping to gather all Servo-Limits
 //needed for SpiderRoy.
+// min is the position to the front or most close to the body
+// max is the position to the back or most away from the body or up
+//for ServoNr. see ServoPosition.png, use "2" as dummy for unused
 //output to screen and I2CServos.txt
 //**********************************************************************
 #include <wiringPi.h>
@@ -13,8 +16,8 @@
 #include <pca9685.h>
 
 #define OFFSET_MS 0     
-#define SERVO_MIN_MS 1+OFFSET_MS        
-#define SERVO_MAX_MS 30+OFFSET_MS       
+#define SERVO_MIN_MS 5+OFFSET_MS        
+#define SERVO_MAX_MS 27+OFFSET_MS       
 
 #define devId0	0x40
 #define devId1	0x41
@@ -28,6 +31,7 @@ FILE *fp;
 struct s_Servo {
 	int min;
 	int max;
+	int num;
 };
 struct s_Servo Servo[34];
 
@@ -43,6 +47,7 @@ void servoInit(int pin,int base){        //initialization function for servo PMW
 	pinMode(pin+PIN_BASE0,OUTPUT);
 	Servo[pin].min=10;
 	Servo[pin].max=10;
+	Servo[pin].num=2;
 	servoWriteMS(pin-PIN_BASE0,10);	
 }
 
@@ -122,12 +127,13 @@ int main (int argc, char *argv[]) {
 			servoWriteMS(i+PIN_BASE0,Servo[i].max);
 			printf("Servo %i max:%i\n",i,Servo[i+17].max);
 		}
+		scanf("ServoNr. %i\n",Servo[i].num);
 		servoWriteMS(i+PIN_BASE0,(Servo[i].min+Servo[i].max)/2);
 
 	}
 /////////////////////////0x41
 	for (i=0;i<16;i++) {
-		printf("Testing Servo Nr. %i an Modul %i\n",i,devId1);
+		printf("\nTesting Servo Nr. %i an Modul %i\n",i,devId1);
 		pinMode(i+PIN_BASE1,OUTPUT);
 		Servo[i+17].min=10;
 		Servo[i+17].max=10;
@@ -160,19 +166,20 @@ int main (int argc, char *argv[]) {
 			servoWriteMS(i+PIN_BASE0,Servo[i+17].min);
 			printf("Servo %i min:%i\n",i,Servo[i+17].min);
 		}
+		scanf("ServoNr. %i\n",Servo[i].num);
 		servoWriteMS(i+PIN_BASE0,(Servo[i+17].min+Servo[i+17].max)/2);
 	}
 /////////////////////////////////Ausgabe
 	printf("\n\nDatenerfassung beendet\n");
 	printf("\nModul: %i\n",PIN_BASE0);
-	for (i=0;i<=16;i++) printf("Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
+	for (i=0;i<=16;i++) printf("Servo Nr. %i: (%i) min :%i, max:%i \n",Servo[i].num,i,Servo[i].min,Servo[i].max);
 	printf("\nModul: %i\",PIN_BASE1);
-	for (i=0;i<=16;i++) printf("Servo Nr. %i min :%i, max:%i \n",i,Servo[i+17].min,Servo[i+17].max);
+	for (i=0;i<=16;i++) printf("Servo Nr. %i: (%i) min :%i, max:%i \n",Servo[i+17].num,i,Servo[i+17].min,Servo[i+17].max);
 	fp = fopen("I2CServos.txt", "w");
-	     	fprintf(fp,"\nModul: %i\n",PIN_BASE0);
-		for (i=0;i<16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i].min,Servo[i].max);
-		fprintf(fp,"\nModul: %i\n",PIN_BASE1);
-		for (i=0;i<16;i++) fprintf(fp,"Servo Nr. %i min :%i, max:%i \n",i,Servo[i+17].min,Servo[i+17].max);
+	     	fprintf(fp,"\n// Modul: %i\n",PIN_BASE0);
+		for (i=0;i<16;i++) fprintf(fp,"	Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i+17].min,Servo[i].num,Servo[i+17].max);
+		fprintf(fp,"\n// Modul: %i\n",PIN_BASE1);
+		for (i=17;i<34;i++) fprintf(fp,"	Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i+17].min,Servo[i].num,Servo[i+17].max);
 	fclose(fp);       
     return 0;
 }
