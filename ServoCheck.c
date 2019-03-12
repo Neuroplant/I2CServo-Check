@@ -36,6 +36,7 @@ struct s_Servo {
 struct s_Servo Servo[34];
 
 char key;
+char str1[20];
 
 long map(long value,long fromLow,long fromHigh,long toLow,long toHigh){
     return (toHigh-toLow)*(value-fromLow) / (fromHigh-fromLow) + toLow;
@@ -125,9 +126,13 @@ int main (int argc, char *argv[]) {
 				Servo[i].max--;
 			}
 			servoWriteMS(i+PIN_BASE0,Servo[i].max);
-			printf("Servo %i max:%i\n",i,Servo[i+17].max);
+			printf("Servo %i max:%i\n",i,Servo[i].max);
 		}
-		scanf("ServoNr. %i\n",Servo[i].num);
+		printf("\nServoNr. :");
+		scanf("%s",str1);
+		
+		Servo[i].num=atoi(str1);
+		printf("\nServoNr.. :%d \n",Servo[i].num);
 		servoWriteMS(i+PIN_BASE0,(Servo[i].min+Servo[i].max)/2);
 
 	}
@@ -163,23 +168,34 @@ int main (int argc, char *argv[]) {
 			if (key==45) {
 				Servo[i+17].max--;
 			}
-			servoWriteMS(i+PIN_BASE0,Servo[i+17].min);
-			printf("Servo %i min:%i\n",i,Servo[i+17].min);
+			servoWriteMS(i+PIN_BASE1,Servo[i+17].max);
+			printf("Servo %i min:%i\n",i,Servo[i+17].max);
 		}
-		scanf("ServoNr. %i\n",Servo[i].num);
+		printf("\nServoNr. :");
+		scanf("%s",str1);
+		Servo[i+17].num=atoi(str1);
+		printf("\nServoNr.. :%d \n",Servo[i+17].num);
 		servoWriteMS(i+PIN_BASE0,(Servo[i+17].min+Servo[i+17].max)/2);
 	}
 /////////////////////////////////Ausgabe
 	printf("\n\nDatenerfassung beendet\n");
 	printf("\nModul: %i\n",PIN_BASE0);
 	for (i=0;i<=16;i++) printf("Servo Nr. %i: (%i) min :%i, max:%i \n",Servo[i].num,i,Servo[i].min,Servo[i].max);
-	printf("\nModul: %i\",PIN_BASE1);
+	printf("\nModul: %i\n",PIN_BASE1);
 	for (i=0;i<=16;i++) printf("Servo Nr. %i: (%i) min :%i, max:%i \n",Servo[i+17].num,i,Servo[i+17].min,Servo[i+17].max);
 	fp = fopen("I2CServos.txt", "w");
-	     	fprintf(fp,"\n// Modul: %i\n",PIN_BASE0);
-		for (i=0;i<16;i++) fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE0; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
+	fprintf(fp,"\n// Modul: %i\n",PIN_BASE0);
+		for (i=0;i<16;i++) {
+			if (Servo[%i].pin>30) {
+				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE0; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
+			}
+		}
 		fprintf(fp,"\n// Modul: %i\n",PIN_BASE1);
-		for (i=17;i<34;i++) fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
+		for (i=17;i<34;i++) {
+			if (Servo[%i].pin>30) {
+				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
+			}
+		}
 	fclose(fp);       
     return 0;
 }
