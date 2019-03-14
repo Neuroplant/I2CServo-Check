@@ -153,7 +153,7 @@ int main (int argc, char *argv[]) {
 				printf("Servo %i min:%i\n",i,Servo[i+17].min);
 			}
 			if (key==45) {
-				Servo[i].min--;
+				Servo[i+17].min--;
 				servoWriteMS(i+PIN_BASE1,Servo[i+17].min);
 				printf("Servo %i min:%i\n",i,Servo[i+17].min);
 			}
@@ -175,7 +175,7 @@ int main (int argc, char *argv[]) {
 		scanf("%s",str1);
 		Servo[i+17].num=atoi(str1);
 		printf("\nServoNr.. :%d \n",Servo[i+17].num);
-		servoWriteMS(i+PIN_BASE0,(Servo[i+17].min+Servo[i+17].max)/2);
+		servoWriteMS(i+PIN_BASE1,(Servo[i+17].min+Servo[i+17].max)/2);
 	}
 /////////////////////////////////Ausgabe
 	printf("\n\nDatenerfassung beendet\n");
@@ -186,13 +186,13 @@ int main (int argc, char *argv[]) {
 	fp = fopen("I2CServos.txt", "w");
 	fprintf(fp,"\n// Modul: %i\n",PIN_BASE0);
 		for (i=0;i<16;i++) {
-			if (Servo[i].pin>30) {
+			if (Servo[i].num>30) {
 				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE0; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
 			}
 		}
 		fprintf(fp,"\n// Modul: %i\n",PIN_BASE1);
 		for (i=17;i<34;i++) {
-			if (Servo[i].pin>30) {
+			if (Servo[i].num>30) {
 				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
 			}
 		}
