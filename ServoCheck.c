@@ -186,13 +186,13 @@ int main (int argc, char *argv[]) {
 	fp = fopen("I2CServos.txt", "w");
 	fprintf(fp,"\n// Modul: %i\n",PIN_BASE0);
 		for (i=0;i<16;i++) {
-			if (Servo[%i].pin>30) {
+			if (Servo[i].pin>30) {
 				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE0; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
 			}
 		}
 		fprintf(fp,"\n// Modul: %i\n",PIN_BASE1);
 		for (i=17;i<34;i++) {
-			if (Servo[%i].pin>30) {
+			if (Servo[i].pin>30) {
 				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i \n Servo[%i].max = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max);
 			}
 		}
