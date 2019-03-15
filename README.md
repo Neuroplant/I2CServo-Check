@@ -4,7 +4,7 @@ gather all Servo limits for SpiderRoy
 # Anleitung
 Sobald die Hardware steht müssen noch die "Aktionsbereiche" der Servos eingestellt werden.
 
-Diese sind meist für jedes Bein unterschiedlich, nur in wenigen fällen ist genug Platz um den kompletten bereich eines Servos anzufahren, ohne dass sich die Beine gegenseitig ins Gehege kommen.
+Diese sind meist für jedes Bein unterschiedlich, nur in wenigen Fällen ist genug Platz um den kompletten Bereich eines Servos anzufahren ohne dass sich die Beine gegenseitig ins Gehege kommen.
 
 Auch ist es nicht einfach die Verkabelung der Servos fehlerfrei nach Schema zu machen (es sind immerhin 20 Servos inkl. Kopf).
 Um hier die Arbeit zu erleichtern habe ich dieses kleine Programm geschrieben.
