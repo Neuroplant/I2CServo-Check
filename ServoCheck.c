@@ -46,10 +46,10 @@ void servoWriteMS(int pin, int ms);
 
 void servoInit(int pin,int base){        //initialization function for servo PMW pin
 	pinMode(pin+PIN_BASE0,OUTPUT);
-	Servo[pin].min=10;
-	Servo[pin].max=10;
-	Servo[pin].num=2;
-	servoWriteMS(pin-PIN_BASE0,10);	
+	Servo[pin].min=16;
+	Servo[pin].max=16;
+	Servo[pin].num=99;
+	servoWriteMS(pin+PIN_BASE0,16);	
 }
 
 void servoWriteMS(int pin, int ms){     //specific the unit for pulse(5-25ms) with specific duration output by servo pin: 0.1ms
