@@ -99,9 +99,9 @@ int main (int argc, char *argv[]) {
 	for (i=0;i<16;i++) {
 		printf("\nTesting Servo Nr. %i an Modul %i\n",i,devId0);
 		pinMode(i+PIN_BASE0,OUTPUT);
-		Servo[i].min=10;
-		Servo[i].max=10;
-		servoWriteMS(i+PIN_BASE0,10);			
+		Servo[i].min=16;
+		Servo[i].max=16;
+		servoWriteMS(i+PIN_BASE0,16);			
 		printf("Setze MIN Value (+/-/x)\n");
 		key=0;
 		while (key != 120) {		
@@ -140,9 +140,9 @@ int main (int argc, char *argv[]) {
 	for (i=0;i<16;i++) {
 		printf("\nTesting Servo Nr. %i an Modul %i\n",i,devId1);
 		pinMode(i+PIN_BASE1,OUTPUT);
-		Servo[i+17].min=10;
-		Servo[i+17].max=10;
-		servoWriteMS(i+PIN_BASE1,10);			
+		Servo[i+17].min=16;
+		Servo[i+17].max=16;
+		servoWriteMS(i+PIN_BASE1,16);			
 		printf("Setze MIN Value (+/-/x)\n");
 		key=0;
 		while (key != 120) {		
@@ -169,7 +169,7 @@ int main (int argc, char *argv[]) {
 				Servo[i+17].max--;
 			}
 			servoWriteMS(i+PIN_BASE1,Servo[i+17].max);
-			printf("Servo %i min:%i\n",i,Servo[i+17].max);
+			printf("Servo %i max:%i\n",i,Servo[i+17].max);
 		}
 		printf("\nServoNr. :");
 		scanf("%s",str1);
@@ -187,13 +187,13 @@ int main (int argc, char *argv[]) {
 	fprintf(fp,"\n// Modul: %i\n",PIN_BASE0);
 		for (i=0;i<16;i++) {
 			if (Servo[i].num<30) {
-				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE0; \n Servo[%i].min = %i; \n Servo[%i].max = %i; \n Servo[%i].neu = %i \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max,Servo[i].num,((Servo[i].min+Servo[i].max)/2));
+				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE0; \n Servo[%i].min = %i; \n Servo[%i].max = %i; \n Servo[%i].neu = %i; \n",Servo[i].num,i,Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max,Servo[i].num,((Servo[i].min+Servo[i].max)/2));
 			}
 		}
 		fprintf(fp,"\n// Modul: %i\n",PIN_BASE1);
 		for (i=17;i<34;i++) {
 			if (Servo[i].num<30) {
-				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i; \n Servo[%i].max = %i; \n Servo[%i].neu = %i \n",Servo[i].num,(i-17),Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max,Servo[i].num,((Servo[i].min+Servo[i].max)/2));
+				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i; \n Servo[%i].max = %i; \n Servo[%i].neu = %i; \n",Servo[i].num,(i-17),Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max,Servo[i].num,((Servo[i].min+Servo[i].max)/2));
 			}
 		}
 	fclose(fp);       
