@@ -191,7 +191,7 @@ int main (int argc, char *argv[]) {
 			}
 		}
 		fprintf(fp,"\n// Modul: %i\n",PIN_BASE1);
-		for (i=17;i<34;i++) {
+		for (i=17;i<33;i++) {
 			if (Servo[i].num<30) {
 				fprintf(fp,"\n Servo[%i].pin = %i + PIN_BASE1; \n Servo[%i].min = %i; \n Servo[%i].max = %i; \n Servo[%i].neu = %i; \nServo[%i].alt = %i; \n",Servo[i].num,(i-17),Servo[i].num,Servo[i].min,Servo[i].num,Servo[i].max,Servo[i].num,((Servo[i].min+Servo[i].max)/2),Servo[i].num,((Servo[i].min+Servo[i].max)/2));
 			}
